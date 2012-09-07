@@ -13,7 +13,8 @@
 
 # Use either :stable or :head versions of
 # RVM.
-default[:rvm][:version] = :stable
+#default[:rvm][:version] = :stable
+default[:rvm][:version] = '1.9.2'
 # Keep track of updates to RVM.
 # note: this will effectively inhibit
 # installation of :head.

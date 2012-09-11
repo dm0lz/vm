@@ -1,58 +1,40 @@
 #
 # Cookbook Name:: rvm
 # Recipe:: default
+#
+# Copyright 2010, 2011, Fletcher Nichol
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
 
-# Make sure that the package list is up to date on Ubuntu/Debian.
-include_recipe "apt" if [ 'debian', 'ubuntu' ].member? node[:platform]
-
-# Make sure we have all we need to compile ruby implementations:
-package "curl"
-package "git-core"
-include_recipe "build-essential"
- 
-%w(libreadline-dev zlib1g-dev libssl-dev libxml2-dev libxslt1-dev libtool).each do |pkg|
-  package pkg
-end
-
-# clean up rvm stuff
-# This is mostly to save inode space
-execute "rvm-cleanup" do
-  user "root"
-  command "/usr/local/rvm/bin/rvm cleanup sources"
+# install rvm api gem during chef compile phase
+gem_package 'rvm' do
   action :nothing
-end
- 
-bash "installing system-wide RVM stable" do
-  user "root"
-  code "bash -s stable < <(curl -s https://raw.github.com/wayneeseguin/rvm/master/binscripts/rvm-installer)"
-  not_if "test -e /usr/local/rvm/bin/rvm"
-end
+end.run_action(:install)
 
-bash "upgrading to RVM head" do
-  user "root"
-  code "/usr/local/rvm/bin/rvm update --head ; /usr/local/rvm/bin/rvm reload"
-  only_if { node[:rvm][:version] == :head }
-  only_if { node[:rvm][:track_updates] }
+require 'rubygems'
+Gem.clear_paths
+require 'rvm'
+create_rvm_shell_chef_wrapper
+create_rvm_chef_user_environment
+
+class Chef::Resource
+  # mix in #rvm_cmd_wrap helper into resources
+  include Chef::RVM::ShellHelpers
 end
 
-bash "upgrading RVM stable" do
-  user "root"
-  code "/usr/local/rvm/bin/rvm update ; /usr/local/rvm/bin/rvm reload"
-  only_if { node[:rvm][:track_updates] }
+class Chef::Recipe
+  # mix in recipe helpers
+  include Chef::RVM::RecipeHelpers
+  include Chef::RVM::StringHelpers
 end
-
-#cookbook_file "/etc/profile.d/rvm.sh" do
-#  owner "root"
-#  group "root"
-#  mode 0755
-#end
-
-cookbook_file "/usr/local/rvm/bin/rvm-gem.sh" do
-  owner "root"
-  group "root"
-  mode 0755
-end
-
-# set this for compatibilty with other people's recipes
-node.default[:languages][:ruby][:ruby_bin] = find_ruby
-

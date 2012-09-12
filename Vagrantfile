@@ -64,10 +64,27 @@ Vagrant::Config.run do |config|
   # some recipes and/or roles.
   #
    config.vm.provision :chef_solo do |chef|
-     chef.cookbooks_path = "cookbooks/"
+
+     chef.cookbooks_path = ["cookbooks"]
+     #chef.add_recipe "apt"
+     chef.add_recipe "build-essential"
+     chef.add_recipe "git"
+     #chef.add_recipe "mongodb"
+     chef.add_recipe "rvm::vagrant"
+     chef.add_recipe "rvm::system"
+     #  Override attributes here. Each cookbook will specify which attributes to override.
+     chef.json = { 
+     'rvm' => {
+     'rubies' => ['1.9.3'],
+     'default_ruby' => '1.9.3',
+     'vagrant' => { 
+           'system_chef_solo' => '/opt/vagrant_ruby/bin/chef-solo'
+              }
+           },
+      }
      #chef.roles_path = "../my-recipes/roles"
      #chef.data_bags_path = "../my-recipes/data_bags"
-     chef.add_recipe("vagrant_main")
+     #chef.add_recipe("vagrant_main")
 
      #chef.add_role "web"
   

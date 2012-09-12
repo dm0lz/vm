@@ -12,27 +12,4 @@ cookbook 'git',
   git: 'https://github.com/fnichol/chef-git'
 cookbook 'rvm', 
   git: 'git://github.com/fnichol/chef-rvm'
-#cookbook "yum",
-#  :git => "https://github.com/opscode-cookbooks/yum"
-#cookbook "rabbitmq",
-#  :git => "https://github.com/opscode-cookbooks/rabbitmq"
-#cookbook "redis",
-#  :git => "https://github.com/miah/chef-redis",
-#  :ref => "1.0.3"
-#cookbook "iptables"
-#cookbook "sensu",
-#  :git => "https://github.com/sensu/sensu-chef",
-#  :ref => "latest"
-
-
-
-# cookbook 'chef-client'
-
-# cookbook 'apache2', '>= 1.0.0'
-
-# cookbook 'rvm',
-#   :git => 'https://github.com/fnichol/chef-rvm'
-
-# cookbook 'postgresql',
-#   :git => 'https://github.com/findsyou/cookbooks',
-#   :ref => 'postgresql-improvements'
+cookbook 'mongodb'

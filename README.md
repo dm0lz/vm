@@ -4,10 +4,6 @@ Steps to get it up and running :
   
     bundle install
 
-  -Change the path of your ruby in Cheffile 
-  
-    which ruby
-  
   -make sure you have a box named precise32 in your system. 
   
   If not make it using :

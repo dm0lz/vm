@@ -1,10 +1,19 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
+    bluepill (1.1.0)
     build-essential (1.1.0)
     mongodb (0.11.0)
       apt (>= 0.0.0)
+    nginx (1.0.2)
+      bluepill (>= 0.0.0)
+      build-essential (>= 0.0.0)
+      ohai (>= 1.1.0)
+      runit (>= 0.0.0)
+      yum (>= 0.0.0)
+    ohai (1.1.2)
     runit (0.15.0)
+    yum (0.8.0)
 
 GIT
   remote: git://github.com/fnichol/chef-rvm
@@ -33,5 +42,6 @@ DEPENDENCIES
   build-essential (>= 0)
   git (>= 0)
   mongodb (>= 0)
+  nginx (>= 0)
   rvm (>= 0)
 

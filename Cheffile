@@ -13,3 +13,4 @@ cookbook 'git',
 cookbook 'rvm', 
   git: 'git://github.com/fnichol/chef-rvm'
 cookbook 'mongodb'
+cookbook 'nginx'

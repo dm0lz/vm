@@ -70,6 +70,7 @@ Vagrant::Config.run do |config|
      chef.add_recipe "build-essential"
      chef.add_recipe "git"
      chef.add_recipe "mongodb"
+     chef.add_recipe "nginx"
      chef.add_recipe "rvm::vagrant"
      chef.add_recipe "rvm::system"
      #  Override attributes here. Each cookbook will specify which attributes to override.
